@@ -306,6 +306,22 @@
     max min 来限制越界问题ß
     def myAtoi(self, s: str) -> int:
         return max(min(int(*re.findall('^[\+\-]?\d+', s.lstrip())), 2**31 - 1),-2**31)
+## 9. 回文数
+    
+    可以用转化成字符串判断，也可以判断两个数 网站给的进阶是要求不用字符串
+    def isPalindrome(x):
+    if x < 0:
+        return False
+    temp = x
+    res = 0
+    while temp > 0:
+        reNum = temp % 10
+        temp = temp // 10
+        res = res * 10 + reNum
+    if res == x:
+        return True
+    else:
+        return False
 
 
 
