@@ -299,7 +299,13 @@
             res = int(''.join(a))*-1
             return res if min<res<max else 0
 
-
+## 8.字符串转换整数 (atoi)
+    
+    这题主要是给测试做的，各种案例过不去'0+-1'，'+-2'，'4  +5-8'等等
+    正则表达式来做吧
+    max min 来限制越界问题ß
+    def myAtoi(self, s: str) -> int:
+        return max(min(int(*re.findall('^[\+\-]?\d+', s.lstrip())), 2**31 - 1),-2**31)
 
 
 
