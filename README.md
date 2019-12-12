@@ -323,7 +323,9 @@
     else:
         return False
 ## 10.正则匹配
-
+    
+    此题可以空间换时间 动态规划解决 还可以回溯法解决 要从后往前找
+    题解链接：https://hk029.gitbooks.io/leetbook/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/010.%20Regular%20Expression%20Matching/010.%20Regular%20Expression%20Matching.html
     状态 
     首先状态 dp 一定能自己想出来。
     dp[i][j] 表示 s 的前 i个是否能被 p 的前 j 个匹配
