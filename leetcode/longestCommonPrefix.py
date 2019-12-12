@@ -15,7 +15,7 @@ def longestCommonPrefix(strs):
         min_len = min(len(s1),len(s2))
         for i in range(min_len):
             if s1[i]==s2[i]:
-                res=res+str(s2[i])
+                res+=s2[i]
             else:
                 break
         return res
@@ -25,5 +25,5 @@ def longestCommonPrefix(strs):
         if max=='':
             break
     return max
-a=longestCommonPrefix(["abab","aba",""])
+a=longestCommonPrefix(["abab","aba","a"])
 print(a)
