@@ -618,6 +618,65 @@
                 else:  # 更新指针
                     first += 1
         return result
+## 17.电话号码的字母组合
+    #方法一 遍历上次的组合结果，逐个合并
+    def letterCombinations(digits):
+        KEY = {'2': ['a', 'b', 'c'],
+               '3': ['d', 'e', 'f'],
+               '4': ['g', 'h', 'i'],
+               '5': ['j', 'k', 'l'],
+               '6': ['m', 'n', 'o'],
+               '7': ['p', 'q', 'r', 's'],
+               '8': ['t', 'u', 'v'],
+               '9': ['w', 'x', 'y', 'z']}
+        if not digits:
+            return ''
+        res = ['']#res就是一个逐渐添加的 又每一轮都遍历 完成了全排列
+        for num in digits:
+            temp =[]
+            for char_item in KEY[num]:
+                for r in res:
+                    temp.append(char_item+r)
+            res = temp
+        return res
+    
+    #递归
+    '''
+    当没有数字的时候返回空
+    当只有一个数字的时候，返回该数字对应的字母
+    当有两个数字的时候，返回第一个数字对应的字母分别加上第二个数字所对应的字母，生成字符串列表
+    当有三个数字的时候，返回第一个数字对应的字母分别加上后两个数字生成的字符串列表
+    '''
+    def letterCombinations1(digits):
+        """
+        :type digits: str
+        :rtype: List[str]
+        """
+        dic = {
+            '2': ['a', 'b', 'c'],
+            '3': ['d', 'e', 'f'],
+            '4': ['g', 'h', 'i'],
+            '5': ['j', 'k', 'l'],
+            '6': ['m', 'n', 'o'],
+            '7': ['p', 'q', 'r', 's'],
+            '8': ['t', 'u', 'v'],
+            '9': ['w', 'x', 'y', 'z']
+        }
+        result = []
+        tail = []
+        len_d = len(digits)
+        if len_d == 0:
+            return tail
+        if len_d == 1:
+            return dic[digits]
+    
+        tail = letterCombinations(digits[1:])
+    
+        for i in dic[digits[0]]:
+            for j in tail:
+                result.append(i + j)
+        return result
+
     
          
           
