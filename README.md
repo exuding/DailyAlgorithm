@@ -721,6 +721,28 @@
                     else:
                         left += 1
         return res
+        
+## 19. 删除链表的倒数第N个节点
+
+    def removeNthFromEnd(head: ListNode, n: int) -> ListNode:
+        p = head
+        count = 1
+        while p.next:
+            p = p.next
+            count += 1
+        p = head
+        if count <= 1 and n == 1:
+            return None
+        elif count <= 1 and n == 0:
+            return head
+        elif count == n:
+            head = head.next
+            return head
+        else:
+            for i in range(count - n - 1):
+                p = p.next
+            p.next = p.next.next
+        return head
 
     
          
