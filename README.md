@@ -723,7 +723,7 @@
         return res
         
 ## 19. 删除链表的倒数第N个节点
-
+    #两趟扫描
     def removeNthFromEnd(head: ListNode, n: int) -> ListNode:
         p = head
         count = 1
@@ -743,6 +743,20 @@
                 p = p.next
             p.next = p.next.next
         return head
+    # 优化 一趟扫描 双指针
+    def removeNthFromEnd(head: ListNode, n: int) -> ListNode:
+        first,last = head,head
+        for i in range(n):#搞一个n的窗口，后一个到末尾的时候，开始的就是倒数第n个
+            last = last.next
+        if last:
+            while last.next:
+                first = first.next
+                last = last.next
+            first.next = first.next.next
+            return head
+        else:
+            head = first.next
+            return head
 
     
          
