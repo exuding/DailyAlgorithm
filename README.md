@@ -757,7 +757,14 @@
         else:
             head = first.next
             return head
-
+## 20. 有效的括号
+    #投机取巧法
+    def isValid(self, s):
+        while '{}' in s or '()' in s or '[]' in s:
+            s = s.replace('{}', '')
+            s = s.replace('[]', '')
+            s = s.replace('()', '')
+        return s == ''
     
          
           
