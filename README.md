@@ -676,15 +676,178 @@
             for j in tail:
                 result.append(i + j)
         return result
+## 18.四数之和
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        n = len(nums)
+        if n < 4: return []
+        nums.sort()
+        res = []
+        for i in range(n-3):
+            # 防止重复 数组进入 res   关键
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            # 当数组最小值和都大于target 跳出  关键
+            if nums[i] + nums[i+1] + nums[i+2] + nums[i+3] > target:
+                break
+            # 当数组最大值和都小于target,说明i这个数还是太小,遍历下一个   关键
+            if nums[i] + nums[n-1] + nums[n-2] + nums[n-3] < target:
+                continue
+            for j in range(i+1,n-2):
+                # 防止重复 数组进入 res
+                if j - i > 1 and nums[j] == nums[j-1]:
+                    continue
+                # 同理
+                if nums[i] + nums[j] + nums[j+1] + nums[j+2] > target:
+                    break
+                # 同理
+                if nums[i] + nums[j] + nums[n-1] + nums[n-2] < target:
+                    continue
+                # 双指针
+                left = j + 1
+                right = n - 1
+                while left < right:
+                    tmp = nums[i] + nums[j] + nums[left] + nums[right]
+                    if tmp == target:
+                        res.append([nums[i],nums[j],nums[left],nums[right]])
+                        while left < right and nums[left] == nums[left+1]:
+                            left += 1
+                        while left < right and nums[right] == nums[right-1]:
+                            right -= 1
+                        left += 1
+                        right -= 1
+                    elif tmp > target:
+                        right -= 1
+                    else:
+                        left += 1
+        return res
+## 19. 删除链表的倒数第N个节点
+    #两趟扫描
+    def removeNthFromEnd(head: ListNode, n: int) -> ListNode:
+        p = head
+        count = 1
+        while p.next:
+            p = p.next
+            count += 1
+        p = head
+        if count <= 1 and n == 1:
+            return None
+        elif count <= 1 and n == 0:
+            return head
+        elif count == n:
+            head = head.next
+            return head
+        else:
+            for i in range(count - n - 1):
+                p = p.next
+            p.next = p.next.next
+        return head
+    # 优化 一趟扫描 双指针
+    def removeNthFromEnd(head: ListNode, n: int) -> ListNode:
+        first,last = head,head
+        for i in range(n):#搞一个n的窗口，后一个到末尾的时候，开始的就是倒数第n个
+            last = last.next
+        if last:
+            while last.next:
+                first = first.next
+                last = last.next
+            first.next = first.next.next
+            return head
+        else:
+            head = first.next
+            return head
+## 20. 有效的括号
+    #投机取巧法
+    def isValid(self, s):
+        while '{}' in s or '()' in s or '[]' in s:
+            s = s.replace('{}', '')
+            s = s.replace('[]', '')
+            s = s.replace('()', '')
+        return s == ''
+    #通过栈来实现
+    def isValid1(s):
+        if len(s)==0:
+            return True
+        if len(s)%2 != 0:
+            return False
+        res = []
+        for i in s:
+            if i in ['(','{','[']:
+                res.append(i)
+            else:
+                if res:
+                    if i==')' and res[-1] == '(' or i==']' and res[-1] == '[' or i=='}' and res[-1] == '{':
+                        res.pop()#默认删除最后一个 也可指定索引
+                    else:
+                        return False
+                else:
+                    return False
+        if res:
+            return False
+        else:
+            return True
+## 21. 合并两个有序链表
+    方法 1：递归
+    想法
+    我们可以如下递归地定义在两个链表里的 merge 操作（忽略边界情况，比如空链表等）：
+    { 
+    list1[0]+merge(list1[1:],list2) ; list1[0]<list2[0]
+    list2[0]+merge(list1,list2[1:]) ; otherwise
+    ​}
+    也就是说，两个链表头部较小的一个与剩下元素的 merge 操作结果合并。
+    算法
+    我们直接将以上递归过程建模，首先考虑边界情况。
+    特殊的，如果 l1 或者 l2 一开始就是 null ，那么没有任何操作需要合并，所以我们只需要返回非空链表。
+    否则，我们要判断 l1 和 l2 哪一个的头元素更小，然后递归地决定下一个添加到结果里的值。
+    如果两个链表都是空的，那么过程终止，所以递归过程最终一定会终止。
+    ##递归返回结果
+    def mergeTwoLists(self, l1, l2):
+        if l1 is None:
+            return l2
+        elif l2 is None:
+            return l1
+        elif l1.val < l2.val:
+            l1.next = self.mergeTwoLists(l1.next, l2)
+            return l1
+        else:
+            l2.next = self.mergeTwoLists(l1, l2.next)
+            return l2
+    方法2. 迭代法
+    def mergeTwoLists(l1, l2):
+        l3 = ListNode(-1)
+        temp = l3
+        while l1 or l2:
+            if l1 and l2:
+                if l1.val < l2.val:
+                    temp.next = l1
+                    l1 = l1.next
+                else:
+                    temp.next = l2
+                    l2 = l2.next
+                temp = temp.next
+            elif l1:
+                temp.next = l1
+                temp = temp.next
+                l1 = l1.next
+            else:
+                temp.next = l2
+                temp = temp.next
+                l2 = l2.next
+        return l3.next#头节点是-1 不输出
+    #改进一下
+    def mergeTwoLists1(l1, l2):
+        l3 = ListNode(-1)
+        temp = l3
+        while l1 and l2:
+            if l1.val < l2.val:
+                temp.next = l1
+                l1 = l1.next
+            else:
+                temp.next = l2
+                l2 = l2.next
+            temp = temp.next
+        temp.next = l1 if l1 is not None else l2
+        return l3.next
 
-    
-         
-          
-          
-          
-          
-          
-          
           
           
           
