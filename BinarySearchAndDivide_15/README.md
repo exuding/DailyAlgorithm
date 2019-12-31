@@ -4,7 +4,7 @@
         nums[mid] == targe之后
         left = ...
         right = ...
-    3.计算 mid 时需要技巧防止溢出，即 mid=left+(right-left)/2
+    3.计算 mid 时需要技巧防止溢出，即 mid=left+(right-left)/2 更进一步要mid = (left + right) >> 1
     4. 为什么 while 循环的条件中是 <=，而不是 < ？
     答：因为初始化 right 的赋值是 nums.length-1，即最后一个元素的索引，而不是 nums.length。
     二者可能出现在不同功能的二分查找中，区别是：前者相当于两端都闭区间 [left, right]，后者相当于左闭右开区间 [left, right)，因为索引大小为 nums.length 是越界的。
@@ -80,11 +80,53 @@
                 elif nums[mid] > target:
                     right = mid - 1
             if left <= len(nums)-1 and nums[left] == target: return left  # 注意
-            else: return -1    
+            else: return -1  
+  
+## 35.搜索插入的位置
+    描述：
+        给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+    例子：
+        输入: [1,3,5,6], 5
+        输出: 2
+        输入: [1,3,5,6], 2
+        输出: 1
+        输入: [1,3,5,6], 0
+        输出: 0
+    题解：
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        if not List:return 0
+        left,right = 0,len(nums)-1
+        mid = left + (right-left)//2
+        while left<=right:
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] > target:
+                right = mid -1
+            elif nums[mid] < target:
+                left = mid + 1
+            mid = left + (right-left)//2
+        return left
+    比较理解吧
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        # 返回大于等于 target 的索引，有可能是最后一个
+        size = len(nums)
+        # 特判
+        if size == 0:
+            return 0
 
-
-
-
-
-
+        left = 0
+        # 如果 target 比 nums里所有的数都大，则最后一个数的索引 + 1 就是候选值，因此，右边界应该是数组的长度
+        right = size
+        # 二分的逻辑一定要写对，否则会出现死循环或者数组下标越界
+        while left < right:
+            mid = left + (right - left) // 2
+            if nums[mid] < target:
+                left = mid + 1
+            else:
+                assert nums[mid] >= target
+                # [1,5,7] 2
+                right = mid
+        # 调试语句
+        # print('left = {}, right = {}, mid = {}'.format(left, right, mid))
+        return left
 
