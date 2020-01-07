@@ -847,9 +847,99 @@
             temp = temp.next
         temp.next = l1 if l1 is not None else l2
         return l3.next
+## 回溯法
+### 22. 括号生成
+    例如，给出 n = 3，生成结果为：["(()())","(())()","((()))","()(())","()()()"]
+    
+    #回溯法   又叫穷举法，就是把所有可能穷举出来
+    def generateParenthesis(self, n: int) -> List[str]:
+        ans = []
+        def backtrack(S = '', left = 0, right = 0):
+            if len(S) == 2 * n:
+                ans.append(S)
+                return
+            if left < n:#左括号的个数少于3个 从零开始的所以小于3
+                backtrack(S+'(', left+1, right)
+            if right < left:#只要右括号的个数少于左括号就可以塞右括号
+                backtrack(S+')', left, right+1)
 
-          
-          
+        backtrack()
+        return ans
+## 链表题
+### 23. 合并K个排序链表
+    示例：
+    输入:
+    [
+      1->4->5,
+      1->3->4,
+      2->6
+    ]
+    输出: 1->1->2->3->4->4->5->6
+    
+    递归又归并 需要不断看 双指针改成了递归，看不懂可以先看下面的双指针
+    class Solution:
+    
+        def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+            if not lists: return
+            n = len(lists)
+            return self.merge(lists, 0, n - 1)
+    
+        def merge(self, lists, left, right):
+            if left == right:#递归停止
+                return lists[left]
+            mid = left + (right - left) // 2
+            l1 = self.merge(lists, left, mid)
+            l2 = self.merge(lists, mid + 1, right)
+            return self.mergeTwoLists(l1, l2)
+    
+        def mergeTwoLists(self,l1, l2):
+            l3 = ListNode(-1)
+            temp = l3
+            while l1 and l2:
+                if l1.val < l2.val:
+                    temp.next = l1
+                    l1 = l1.next
+                else:
+                    temp.next = l2
+                    l2 = l2.next
+                temp = temp.next
+            temp.next = l1 if l1 is not None else l2
+            return l3.next
+    #分治思想，两两合并 更好理解
+    左右双指针，每次合并后结果放到left指针的位置，双指针中间碰头后，left指针归零，直至right指针到0
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        if not lists:
+            return None
+        left,right = 0,len(lists)-1
+        while right > 0:
+            while left < right:
+                lists[left] = mergeTwoLists(lists[left], lists[right]);
+                left+=1
+                right-=1  
+            left = 0
+        return lists[0]
+
+    def mergeTwoLists(self,l1, l2):
+        l3 = ListNode(-1)
+        temp = l3
+        while l1 and l2:
+            if l1.val < l2.val:
+                temp.next = l1
+                l1 = l1.next
+            else:
+                temp.next = l2
+                l2 = l2.next
+            temp = temp.next
+        temp.next = l1 if l1 is not None else l2
+        return l3.next 
+ ### 24.两两交换链表中的节点
+    示例：
+    给定 1->2->3->4, 你应该返回 2->1->4->3.
+    
+
+   
+
+
           
           
           
