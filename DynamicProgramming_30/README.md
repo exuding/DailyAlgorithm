@@ -57,17 +57,17 @@
     #时间复杂度分析 27*3，每一步尝试三种硬币，一共27步
     
     def coinChange(coins, amount):
-    a = [amount + 1 for i in range(amount+1)]  # 数组开多大呢 子状态从0-n就开 n+1 子状态从0-n-1就开 n
-    # a[amount] = a[amount-ak]+1
-    # ak = coins[i]
-    a[0] = 0
-    for i in range(1, amount+1):
-        a[i] = amount + 1  # 假设拼不出来
-        for j in coins:
-            if i >= j:
-                a[i] = min(a[i - j] + 1, a[i])
-    if a[amount] == amount + 1:
-        a[amount] = -1
-    
-    
+        a = [amount + 1 for i in range(amount+1)]  # 数组开多大呢 子状态从0-n就开 n+1 子状态从0-n-1就开 n
+        # a[amount] = a[amount-ak]+1
+        # ak = coins[i]
+        a[0] = 0
+        for i in range(1, amount+1):
+            a[i] = amount + 1  # 假设拼不出来
+            for j in coins:
+                if i >= j:
+                    a[i] = min(a[i - j] + 1, a[i])
+        if a[amount] == amount + 1:
+            a[amount] = -1
+        
+        
     
