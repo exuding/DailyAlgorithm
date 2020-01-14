@@ -49,8 +49,6 @@
     题解：二叉搜索树, 一节点大于左子树节点, 小于右子树节点
         所以我们节点是从1到n,当一个节点为val那么它的左边是<= val,右边是>=val,
         用递归解决
-
-
         class Solution:
             def generateTrees(self, n: int) -> List[TreeNode]:
                 if n == 0: return []
