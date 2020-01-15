@@ -66,4 +66,24 @@
                     return res
                 return helper(1, n)
 
-
+## 100. 相同的树
+    描述：
+        给定两个二叉树，编写一个函数来检验它们是否相同。如果两个树在结构上相同，并且节点具有相同的值，则认为它们是相同的。
+    题解：
+        class Solution:
+            def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+                if not p and not q:return True
+                def dfs(left,right):
+                    # 递归的终止条件是两个节点都为空
+                    # 或者两个节点中有一个为空
+                    # 或者两个节点的值不相等
+                    if not (left or right):
+                        return True
+                    if not (left and right):
+                        return False
+                    if left.val!=right.val:
+                        return False
+                    return dfs(left.left,right.left) and dfs(left.right,right.right)
+                return dfs(p,q)
+                    
+           
