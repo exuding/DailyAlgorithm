@@ -98,5 +98,24 @@
                     left_height = self.maxDepth(root.left) 
                     right_height = self.maxDepth(root.right) 
                     return max(left_height, right_height) + 1 
-                 
+        DFS:
+        def maxDepth(self, root):
+            if(not root):
+                return 0
+            stack = [(1,root)]
+            depth = 0
+            # 将(1,root)加入栈后不断遍历栈
+            while stack:
+                # 首先从栈中弹出元素
+                cur_depth,node = stack.pop()
+                # 如果弹出的节点不为空
+                if node:
+                    # 比较这个节点的深度和depth的大小
+                    depth = max(cur_depth,depth)
+                    # 将 (当前深度+1，left)放入栈中
+                    stack.append((cur_depth+1,node.left))
+                    # 同理将(当前深度+1,right)放入栈中
+                    stack.append((cur_depth+1,node.right))
+            return depth
+
            
