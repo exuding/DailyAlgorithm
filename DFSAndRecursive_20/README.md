@@ -85,5 +85,18 @@
                         return False
                     return dfs(left.left,right.left) and dfs(left.right,right.right)
                 return dfs(p,q)
-                    
+## 104. 二叉树的最大深度
+    描述：
+        给定一个二叉树，找出其最大深度。二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
+    题解：
+        递归
+        class Solution:
+            def maxDepth(self, root: TreeNode) -> int:
+                if not root:
+                    return 0
+                else: 
+                    left_height = self.maxDepth(root.left) 
+                    right_height = self.maxDepth(root.right) 
+                    return max(left_height, right_height) + 1 
+                 
            
