@@ -117,5 +117,75 @@
                     # 同理将(当前深度+1,right)放入栈中
                     stack.append((cur_depth+1,node.right))
             return depth
-
-           
+## 687. 最长同值路径
+    描述：
+        给定一个二叉树，找到最长的路径，这个路径中的每个节点具有相同值。 这条路径可以经过也可以不经过根节点。
+        注意：两个节点之间的路径长度由它们之间的边数表示。
+    示例：
+        示例 1:
+        输入:
+        
+                      5
+                     / \
+                    4   5
+                   / \   \
+                  1   1   5
+        输出:2
+        示例 2:
+        输入:
+        
+                      1
+                     / \
+                    4   5
+                   / \   \
+                  4   4   5
+        输出:2
+    题解：
+        最长的路径可能有三种情况：
+        1.在左子树内部
+        2.在右子树内部
+        3.在穿过左子树，根节点，右子树的一条路径中
+        
+        class Solution(object):
+            def longestUnivaluePath(self, root):
+                self.ans = 0
+            
+                def arrow_length(node):
+                    if not node: return 0
+                    left_length = arrow_length(node.left)
+                    right_length = arrow_length(node.right)
+                    left_arrow = right_arrow = 0
+                    if node.left and node.left.val == node.val:
+                        left_arrow = left_length + 1
+                    if node.right and node.right.val == node.val:
+                        right_arrow = right_length + 1
+                    self.ans = max(self.ans, left_arrow + right_arrow)
+                    return max(left_arrow, right_arrow)
+            
+                arrow_length(root)
+                return self.ans
+                
+## 206. 反转链表
+    描述：
+        反转单链表
+    题解：
+        归的条件：
+        head.next == None
+        说明到尾部了。
+        head == None, 是为了处理特殊情况：输入空列表，直接返回
+        
+        递的操作：
+        1.得到尾部节点:p = self.reverseList(head.next)
+        2.翻转当前节点：head.next.next = head
+        3.拆掉当前节点的next：head.next = None
+        class Solution:
+            def reverseList(self, head: ListNode) -> ListNode:
+                # 归
+                if head == None or head.next == None: return head
+                # 递
+                p = self.reverseList(head.next)
+                # 交换当前head 和 head.next
+                head.next.next = head
+                head.next = None
+                return p
+    

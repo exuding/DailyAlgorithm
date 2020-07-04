@@ -46,4 +46,41 @@
                         if rows[i][num] > 1 or columns[j][num] > 1 or boxes[box_index][num] > 1:
                             return False         
             return True
-
+     
+       
+## 242. 有效的字母异位词
+    描述：给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。
+    示例 1:
+        输入: s = "anagram", t = "nagaram"
+        输出: true
+    示例 2:
+        输入: s = "rat", t = "car"
+        输出: false
+    题解：
+        排序法：
+        def isAnagram(self, s: str, t: str) -> bool:
+            if len(s) != len(t):
+                return False
+            s = sorted(s)
+            t = sorted(t)
+            if s == t:
+                return True
+            else:
+                return False
+        哈希表法：
+            def isAnagram(self, s: str, t: str) -> bool:
+                if len(s) != len(t):
+                    return False
+                dict_str = {}
+                for i in s:
+                    if i not in dict_str:
+                        dict_str[i] = 1
+                    else:
+                        dict_str[i] = dict_str[i] + 1
+                for j in t:
+                    if j in dict_str:
+                        dict_str[j] = dict_str[j] - 1
+                for i in list(dict_str.values()):
+                    if i != 0:
+                        return False
+                return True
