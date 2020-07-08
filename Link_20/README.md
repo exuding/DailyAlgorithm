@@ -304,8 +304,37 @@
                     pb = pb.next if pb else headA
                 return pa
         
+##   1.两数相加：
+    题解：
+        要有一个carry计算每次进位不进位，新链表设置两个头节点和尾节点，如果要进位插入的话，node.val怎么赋予的也很有讲究
+    class Solution:
+        def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+            head = None # 链表头
+            tail = None # 链表尾部，方便插入的时候不需要遍历
+            carry = 0
+            while l1 or l2:
+                l1_v = l1.val if l1 else 0
+                l2_v = l2.val if l2 else 0
+                val = l1_v + l2_v + carry
+                carry = val // 10
+                val = val % 10
 
-        
-        
-        
-        
+                node = ListNode(val)
+                if not head:
+                    head = node
+                    tail = head
+                else:
+                    tail.next = node
+                    tail = node
+                if l1:
+                    l1 = l1.next
+                if l2:
+                    l2 = l2.next
+
+            if carry>0:
+                tail.next = ListNode(1)
+            return head
+
+
+
+
